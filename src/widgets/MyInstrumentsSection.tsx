@@ -178,7 +178,7 @@ export const MyInstrumentsSection = () => {
                   : "bg-white/50 text-black border-[1px] border-white/60 backdrop-blur-[12px]"
               )}
             >
-              {Icon && <Icon size={20} strokeWidth={2.5} className="shrink-0" />}
+              {Icon && <Icon size={20}  className="shrink-0" />}
               {tab.label}
             </button>
           );

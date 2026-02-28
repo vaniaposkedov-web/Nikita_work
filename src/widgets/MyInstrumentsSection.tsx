@@ -204,6 +204,24 @@ export const MyInstrumentsSection = () => {
           ))}
         </AnimatePresence>
       </div>
+    {/* 4. КНОПКА "Все инструменты (18)" */}
+      <div className="px-[16px] flex justify-center">
+        <button 
+          className="flex items-center justify-center w-[171px] h-[36px] px-[12px] py-[8px] rounded-[1000px] backdrop-blur-[12px] active:scale-95 transition-transform cursor-pointer"
+          style={{
+            border: '1px solid transparent',
+            background: `
+              linear-gradient(rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.5)) padding-box, 
+              linear-gradient(93.5deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 50%, #FFFFFF 100%) border-box
+            `
+          }}
+        >
+          {/* Текстовый слой строго по параметрам Figma */}
+          <span className="w-[147px] h-[20px] flex items-center justify-center text-[14px] font-medium leading-[20px] tracking-[-0.02em] text-[#000000] whitespace-nowrap">
+            Все инструменты (18)
+          </span>
+        </button>
+      </div>
     </section>
   );
 };

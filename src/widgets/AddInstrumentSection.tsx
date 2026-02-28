@@ -100,7 +100,7 @@ export const AddInstrumentSection = () => {
 
   return (
     // Изменили gap-[32px] на gap-[20px]
-    <section className="flex flex-col gap-[20px] pt-6 pb-24">
+    <section className="flex flex-col gap-[20px] pb-24">
       <h2 className="w-[343px] h-[32px] text-[24px] font-semibold leading-[32px] tracking-[-0.02em] text-black">
         Добавление инструмента
       </h2>

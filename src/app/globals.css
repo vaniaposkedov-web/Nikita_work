@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@theme {
+  /* Цвета из макета */
+  --color-moway-black: #1A1A1A;
+  --color-moway-primary: #573DEB;
+  --color-moway-gray-secondary: #838383;
+  --color-moway-bg: #F2F2F2;
+
+  /* Радиусы */
+  --radius-card: 20px;
+  --radius-widget: 32px;
+
+  /* Тени и Блюр */
+  --shadow-premium: 0 10px 40px -10px rgba(87, 61, 235, 0.2);
+  --blur-glass: 12px;
+}
+
+:root {
+  --background: #F2F2F2;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--color-moway-black);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.blend-soft-light {
+  mix-blend-mode: soft-light;
+}
+
+/* СКРЫТИЕ СКРОЛЛБАРА */
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+}

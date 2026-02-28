@@ -1,7 +1,7 @@
 'use client';
 
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import { MoreHorizontal, Trash2, Edit, Copy, BarChart3 } from 'lucide-react';
+import { Trash2, Edit, Copy, BarChart3 } from 'lucide-react';
 import { useInstrumentStore } from '@/shared/store/useInstrumentStore';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -15,8 +15,28 @@ export const InstrumentActions = ({ id }: Props) => {
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
-        <button className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-black/5 transition-colors outline-none text-[#838383] hover:text-[#1A1A1A] cursor-pointer active:scale-90">
-          <MoreHorizontal size={20} />
+        <button 
+          className="relative flex items-center justify-center w-[36px] h-[36px] bg-white rounded-full p-[8px] active:scale-95 transition-all shadow-[0_2px_8px_rgba(0,0,0,0.04)]"
+          aria-label="Действия"
+        >
+          <div className="relative w-[20px] h-[20px]">
+            <svg 
+              style={{ 
+                position: 'absolute', 
+                top: '8.96px', 
+                left: '3.96px', 
+                width: '12.09px', 
+                height: '2.08px' 
+              }} 
+              viewBox="0 0 12 2" 
+              fill="none" 
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <circle cx="1.04" cy="1.04" r="1.04" fill="#1A1A1A" />
+              <circle cx="6.04" cy="1.04" r="1.04" fill="#1A1A1A" />
+              <circle cx="11.04" cy="1.04" r="1.04" fill="#1A1A1A" />
+            </svg>
+          </div>
         </button>
       </DropdownMenu.Trigger>
 

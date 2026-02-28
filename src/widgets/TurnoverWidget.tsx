@@ -8,8 +8,8 @@ export const TurnoverWidget = () => {
     <motion.div 
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
-      // Ограничиваем ширину до 343px, p-6 задает одинаковый отступ со всех сторон
-      className="relative overflow-hidden w-full max-w-[343px] mx-auto h-[136px] bg-[#573DEB] rounded-[32px] p-6 text-white shadow-[0_20px_40px_-10px_rgba(87,61,235,0.4)] flex flex-col"
+      // Убрали p-6 и flex, оставили чистые размеры 343x136
+      className="relative overflow-hidden w-full max-w-[343px] mx-auto h-[136px] bg-[#573DEB] rounded-[32px] text-white shadow-[0_20px_40px_-10px_rgba(87,61,235,0.4)]"
     >
       {/* WAVES BACKGROUND */}
       <div className="absolute inset-0 pointer-events-none select-none">
@@ -33,37 +33,42 @@ export const TurnoverWidget = () => {
         </svg>
       </div>
       
-      {/* Убираем h-full и justify-between.
-          Используем flex-1 для блока с ценой, чтобы верх и низ имели симметричное пространство.
-      */}
-      <div className="relative z-10 flex flex-col h-full">
-        {/* TOP ROW */}
-        <div className="flex justify-between items-start mb-auto">
-          <p className="text-white/60 text-[14px] leading-[20px] font-medium tracking-tight">
-            Оборот за месяц
-          </p>
-          <button 
-            type="button"
-            aria-label="Подробнее"
-            className="p-2 bg-white/20 hover:bg-white/30 rounded-full backdrop-blur-md transition-all active:scale-90 cursor-pointer"
-          >
-            <ArrowUpRight size={18} strokeWidth={2.5} />
-          </button>
-        </div>
+      {/* КОНТЕЙНЕР ДЛЯ АБСОЛЮТНО ПОЗИЦИОНИРОВАННЫХ ЭЛЕМЕНТОВ */}
+      <div className="relative z-10 w-full h-full">
         
-        {/* MIDDLE & BOTTOM ROW (Flex-1 + mt-auto для прижатия к низу внутри p-6) */}
-        <div className="flex flex-col gap-1 mt-auto">
-          <h2 className="text-[38px] font-black leading-[100%] tracking-tight bg-gradient-to-b from-white to-white/60 bg-clip-text text-transparent">
-            224 350 ₽
-          </h2>
+        {/* Заголовок: top 20, left 20 */}
+        <p className="absolute top-[20px] left-[20px] text-white/60 text-[14px] leading-[20px] font-medium tracking-tight">
+          Обороты за месяц
+        </p>
+
+        {/* Кнопка: так как левый отступ 20, я задал ей right-[20px] для симметрии, top-[20px] */}
+        {/* Кнопка: top 20, right 20, размеры 40x40, фон 12%, блюр 12px */}
+        {/* Кнопка: top 20, right 20, размеры 40x40, фон 12%, блюр 12px */}
+        <button 
+          type="button"
+          aria-label="Подробнее"
+          className="absolute top-[20px] right-[20px] w-[40px] h-[40px] flex items-center justify-center bg-white/[0.12] hover:bg-white/20 rounded-full backdrop-blur-[12px] transition-all active:scale-90 cursor-pointer"
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path fillRule="evenodd" clipRule="evenodd" d="M17.7071 6.29289C18.0976 6.68342 18.0976 7.31658 17.7071 7.70711L6.70711 18.7071C6.31658 19.0976 5.68342 19.0976 5.29289 18.7071C4.90237 18.3166 4.90237 17.6834 5.29289 17.2929L16.2929 6.29289C16.6834 5.90237 17.3166 5.90237 17.7071 6.29289Z" fill="white"/>
+            <path d="M17.2444 5.28969C17.5251 5.37161 17.9065 5.51522 18.1956 5.80432C18.4847 6.09343 18.6284 6.47485 18.7103 6.75554C18.8008 7.06587 18.8606 7.41689 18.9018 7.76996C18.9846 8.47868 19.0051 9.31055 18.9991 10.0841C18.993 10.8636 18.9594 11.6121 18.9277 12.1637C18.9118 12.4402 18.8962 12.6686 18.8846 12.8286C18.8788 12.9079 18.8686 13.0375 18.8651 13.0821L18.865 13.0833C18.8186 13.6336 18.3348 14.0427 17.7845 13.9963C17.2342 13.9499 16.8257 13.4663 16.872 12.916C16.8751 12.8764 16.8844 12.7593 16.8899 12.6837C16.9009 12.5322 16.9157 12.3139 16.931 12.0488C16.9616 11.5174 16.9934 10.8041 16.9991 10.0684C17.0049 9.32669 16.984 8.58989 16.9153 8.00188C16.8808 7.70658 16.8116 7.39683 16.7645 7.23544C16.6031 7.18834 16.2934 7.11912 15.9981 7.08464C15.41 7.01599 14.6732 6.995 13.9315 7.0008C13.1958 7.00656 12.4825 7.03834 11.9511 7.06892C11.686 7.08417 11.4677 7.09904 11.3163 7.11005C11.2406 7.11555 11.124 7.12473 11.0844 7.12785C10.5341 7.17419 10.05 6.76572 10.0036 6.21541C9.9572 5.66508 10.3657 5.18134 10.9161 5.13495L10.9183 5.13477C10.9639 5.13118 11.0926 5.12103 11.1713 5.11531C11.3313 5.10368 11.5598 5.08813 11.8362 5.07222C12.3878 5.04048 13.1363 5.00696 13.9159 5.00086C14.6894 4.99481 15.5213 5.01539 16.23 5.09814C16.5831 5.13936 16.9341 5.19913 17.2444 5.28969Z" fill="white"/>
+          </svg>
+        </button>
+        {/* Сумма: top 44, left 20 */}
+        <h2 className="absolute top-[44px] left-[20px] text-[38px] font-black leading-[100%] tracking-tight bg-gradient-to-b from-white to-white/60 bg-clip-text text-transparent">
+          224 350 ₽
+        </h2>
           
-          <div className="flex items-center gap-1.5 w-fit h-[28px] px-2 pl-0.5 bg-white/10 rounded-full backdrop-blur-md border border-white/5 mt-0.5">
-            <div className="w-[24px] h-[24px] bg-white rounded-full flex items-center justify-center shadow-sm">
-               <TrendingUp size={14} strokeWidth={3} className="text-[#573DEB]" />
-            </div>
-            <span className="text-[13px] font-medium leading-[20px] tracking-tight pr-1">+8,3% за месяц</span>
+        {/* Процент: top 92, left 20 */}
+        <div className="absolute top-[92px] left-[20px] flex items-center gap-1.5 w-fit h-[28px] px-2 pl-0.5 bg-white/10 rounded-full backdrop-blur-md border border-white/5">
+          <div className="w-[24px] h-[24px] bg-white rounded-full flex items-center justify-center shadow-sm">
+             <TrendingUp size={14} strokeWidth={3} className="text-[#573DEB]" />
           </div>
+          <span className="w-[104px] h-[20px] text-[14px] font-normal leading-[20px] tracking-[-0.02em] text-white">
+  +8,3% за месяц
+</span>
         </div>
+
       </div>
     </motion.div>
   );

@@ -29,25 +29,31 @@ export default function Home() {
     <main className="min-h-screen bg-[#F2F2F2] pb-32 relative font-sans selection:bg-[#573DEB]/20">
       
       {/* --- STICKY HEADER --- */}
-      {/* z-[60] — твой текущий слой для шапки */}
-      <header className="sticky top-0 z-[60] w-full bg-[#F2F2F2]/80 backdrop-blur-lg border-b border-black/[0.02]">
-        <div className="max-w-[400px] mx-auto px-5 py-3 flex justify-between items-center h-[72px]">
-          <div className="flex items-center gap-2">
+      <header className="sticky top-0 z-[60] w-full bg-[#F2F2F2]">
+        {/* CONTAINER (h: 104, pb: 8, gap: 4, bg: #F2F2F2) */}
+        <div className="max-w-[400px] mx-auto w-full h-[60px] px-[16px] pb-[8px] flex justify-between items-end gap-[4px]">
+          
+          {/* LOGO BLOCK (left: 16, width: 116, height: 48, gap: 8) */}
+          <div className="flex items-center gap-[8px] w-[116px] h-[48px]">
             <Logo className="w-[34px] h-[38px] text-black" />
             <span className="font-bold text-[18px] leading-[24px] tracking-[-0.04em] text-black uppercase">
               MOWAY
             </span>
           </div>
           
-          <div className="flex items-center gap-3">
-            <button className="w-[48px] h-[48px] flex items-center justify-center bg-white/50 backdrop-blur-[12px] rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.04)] active:scale-90 transition-all cursor-pointer border border-white/50">
+          {/* RIGHT CONTROLS (gap: 16) */}
+          <div className="flex items-center gap-[16px] h-[48px]">
+            
+            {/* SEARCH BUTTON (48x48, p: 13, bg: white 50%, blur: 12px) */}
+            <button className="w-[48px] h-[48px] p-[13px] flex items-center justify-center bg-white/50 backdrop-blur-[12px] rounded-full border border-white/50 active:scale-90 transition-all cursor-pointer">
               <Search size={22} className="text-[#1A1A1A]" />
             </button>
             
-            <div className="relative">
+            {/* PROFILE WRAPPER (48x48) */}
+            <div className="relative w-[48px] h-[48px]">
               <button 
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="w-[48px] h-[48px] rounded-full border border-white shadow-sm overflow-hidden active:scale-95 transition-transform cursor-pointer relative group"
+                className="w-full h-full rounded-full border border-white shadow-sm overflow-hidden active:scale-95 transition-transform cursor-pointer relative group"
               >
                 <img 
                   src="/avatar.jpg" 
@@ -57,16 +63,22 @@ export default function Home() {
                     e.currentTarget.src = 'https://ui-avatars.com/api/?name=Nikita&background=573DEB&color=fff';
                   }}
                 />
-                <div className="absolute top-[2px] right-[2px] w-[11px] h-[11px] bg-[#FF4B4B] border-[2px] border-white rounded-full shadow-sm" />
               </button>
+              
+              {/* RED DOT NOTIFICATION WRAPPER (12x12, left: 36) */}
+<div className="absolute top-0 left-[36px] w-[12px] h-[12px] pointer-events-none z-10">
+  {/* RENTAGLE (8x8, top: 2, left: 2, bg: #E5484D) */}
+  <div className="absolute top-[2px] left-[2px] w-[10px] h-[10px] bg-[#E5484D] border-[1px] border-white rounded-full" />
+</div>
 
+              {/* DROPDOWN MENU */}
               <AnimatePresence>
                 {isMenuOpen && (
                   <motion.div
                     initial={{ opacity: 0, scale: 0.95, y: 10 }}
                     animate={{ opacity: 1, scale: 1, y: 0 }}
                     exit={{ opacity: 0, scale: 0.95, y: 10 }}
-                    className="absolute top-[58px] right-0 w-[148px] bg-white rounded-[16px] shadow-[0_10px_25px_rgba(0,0,0,0.1)] py-1.5 overflow-hidden border border-black/5"
+                    className="absolute top-[58px] right-0 w-[148px] bg-white rounded-[16px] shadow-[0_10px_25px_rgba(0,0,0,0.1)] py-1.5 overflow-hidden border border-black/5 z-50"
                   >
                     <div className="flex flex-col">
                       <MenuLink 
@@ -96,12 +108,13 @@ export default function Home() {
                 )}
               </AnimatePresence>
             </div>
+            
           </div>
         </div>
       </header>
 
       {/* --- CONTENT AREA --- */}
-      <div className="max-w-[400px] mx-auto px-5 pt-6 space-y-10">
+      <div className="max-w-[400px] mx-auto px-[16px] pt-[4px] space-y-[32px]">
         <TurnoverWidget />
         <MyInstrumentsSection />
         <AddInstrumentSection />

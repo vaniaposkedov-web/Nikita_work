@@ -1,7 +1,7 @@
 'use client';
 
+import React, { useState } from 'react';
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu';
-import { Trash2, Edit, Copy, BarChart3 } from 'lucide-react';
 import { useInstrumentStore } from '@/shared/store/useInstrumentStore';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -10,13 +10,16 @@ interface Props {
 }
 
 export const InstrumentActions = ({ id }: Props) => {
+  // ДОБАВИЛИ СОСТОЯНИЕ ДЛЯ КОНТРОЛЯ ОТКРЫТИЯ/ЗАКРЫТИЯ
+  const [isOpen, setIsOpen] = useState(false);
   const removeInstrument = useInstrumentStore((state) => state.removeInstrument);
 
   return (
-    <DropdownMenu.Root>
+    // ПРИВЯЗАЛИ СОСТОЯНИЕ К RADIX UI
+    <DropdownMenu.Root open={isOpen} onOpenChange={setIsOpen}>
       <DropdownMenu.Trigger asChild>
         <button 
-          className="relative flex items-center justify-center w-[36px] h-[36px] bg-white rounded-full p-[8px] active:scale-95 transition-all shadow-[0_2px_8px_rgba(0,0,0,0.04)]"
+          className="relative flex items-center justify-center w-[36px] h-[36px] bg-white rounded-full p-[8px] active:scale-95 transition-all shadow-[0_2px_8px_rgba(0,0,0,0.04)] outline-none cursor-pointer"
           aria-label="Действия"
         >
           <div className="relative w-[20px] h-[20px]">
@@ -40,44 +43,79 @@ export const InstrumentActions = ({ id }: Props) => {
         </button>
       </DropdownMenu.Trigger>
 
-      <DropdownMenu.Portal>
-        <DropdownMenu.Content 
-          asChild
-          align="end" 
-          sideOffset={8}
-          className="z-[100]"
-        >
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 10 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 10 }}
-            className="w-[151px] bg-white rounded-[16px] shadow-[0_10px_30px_rgba(0,0,0,0.12)] py-1.5 overflow-hidden border border-black/5 outline-none"
-          >
-            <DropdownMenu.Item className="flex items-center gap-2 px-3 py-[10px] text-[14px] font-medium text-[#1A1A1A] outline-none cursor-pointer hover:bg-slate-50 transition-colors border-b border-[#E6E6E6]/50">
-              <Copy size={16} className="opacity-70 text-[#573DEB]" /> 
-              <span className="tracking-[-0.02em]">Копировать</span>
-            </DropdownMenu.Item>
-            
-            <DropdownMenu.Item className="flex items-center gap-2 px-3 py-[10px] text-[14px] font-medium text-[#1A1A1A] outline-none cursor-pointer hover:bg-slate-50 transition-colors border-b border-[#E6E6E6]/50">
-              <BarChart3 size={16} className="opacity-70 text-[#573DEB]" /> 
-              <span className="tracking-[-0.02em]">Статистика</span>
-            </DropdownMenu.Item>
-            
-            <DropdownMenu.Item className="flex items-center gap-2 px-3 py-[10px] text-[14px] font-medium text-[#1A1A1A] outline-none cursor-pointer hover:bg-slate-50 transition-colors border-b border-[#E6E6E6]/50">
-              <Edit size={16} className="opacity-70 text-[#573DEB]" /> 
-              <span className="tracking-[-0.02em]">Редактировать</span>
-            </DropdownMenu.Item>
-            
-            <DropdownMenu.Item 
-              onClick={() => removeInstrument(id)}
-              className="flex items-center gap-2 px-3 py-[10px] text-[14px] font-medium text-[#FF4B4B] outline-none cursor-pointer hover:bg-red-50 transition-colors"
+      <AnimatePresence>
+        {/* ДОБАВИЛИ ПРОВЕРКУ isOpen */}
+        {isOpen && (
+          <DropdownMenu.Portal forceMount>
+            <DropdownMenu.Content 
+              asChild
+              align="end" 
+              sideOffset={8}
+              className="z-[100]"
             >
-              <Trash2 size={16} className="opacity-80" /> 
-              <span className="tracking-[-0.02em]">Удалить</span>
-            </DropdownMenu.Item>
-          </motion.div>
-        </DropdownMenu.Content>
-      </DropdownMenu.Portal>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                className="w-[151px] h-[160px] bg-white rounded-[16px] shadow-[0_4px_20px_0_rgba(0,0,0,0.08)] flex flex-col overflow-hidden outline-none"
+              >
+                {/* Пункт 1: Создать заказ */}
+                <DropdownMenu.Item className="flex items-center w-full h-[40px] gap-[8px] px-[12px] py-[10px] border-b-[0.5px] border-[#E6E6E6] hover:bg-gray-50 transition-colors outline-none cursor-pointer">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
+                    <path fillRule="evenodd" clipRule="evenodd" d="M9.04297 1.3125C10.686 1.31249 11.9768 1.31278 12.9844 1.44824C14.0167 1.58708 14.8359 1.87695 15.4795 2.52051C16.1231 3.16407 16.4129 3.98333 16.5518 5.01562C16.6872 6.02317 16.6875 7.31404 16.6875 8.95703V9.04297C16.6875 10.686 16.6872 11.9768 16.5518 12.9844C16.4129 14.0167 16.1231 14.8359 15.4795 15.4795C14.8359 16.1231 14.0167 16.4129 12.9844 16.5518C11.9768 16.6872 10.686 16.6875 9.04297 16.6875H8.95703C7.31404 16.6875 6.02317 16.6872 5.01562 16.5518C3.98333 16.4129 3.16407 16.1231 2.52051 15.4795C1.87695 14.8359 1.58708 14.0167 1.44824 12.9844C1.31278 11.9768 1.31249 10.686 1.3125 9.04297V8.95703C1.31249 7.31404 1.31278 6.02317 1.44824 5.01562C1.58708 3.98333 1.87695 3.16407 2.52051 2.52051C3.16407 1.87695 3.98333 1.58708 5.01562 1.44824C6.02317 1.31278 7.31404 1.31249 8.95703 1.3125H9.04297ZM8.25 6C7.94665 6 7.67273 6.18263 7.55664 6.46289C7.4406 6.74313 7.50525 7.06579 7.71973 7.28027L8.68848 8.25L6.21973 10.7197C5.92691 11.0126 5.92687 11.4874 6.21973 11.7803C6.51264 12.0731 6.98742 12.0731 7.28027 11.7803L9.75 9.31055L10.7197 10.2803C10.9343 10.4948 11.2568 10.5586 11.5371 10.4424C11.8172 10.3262 12 10.0532 12 9.75L11.999 6.75C11.9988 6.33608 11.6629 6.00025 11.249 6H8.25Z" fill="black"/>
+                  </svg>
+                  <span className="text-[14px] font-normal leading-[20px] tracking-[-0.02em] text-black text-left whitespace-nowrap">
+                    Создать заказ
+                  </span>
+                </DropdownMenu.Item>
+
+                {/* Пункт 2: Статистика */}
+                <DropdownMenu.Item className="flex items-center w-full h-[40px] gap-[8px] px-[12px] py-[10px] border-b-[0.5px] border-[#E6E6E6] hover:bg-gray-50 transition-colors outline-none cursor-pointer">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
+                    <path fillRule="evenodd" clipRule="evenodd" d="M9.04297 1.3125C10.686 1.31249 11.9768 1.31278 12.9844 1.44824C14.0167 1.58708 14.8359 1.87695 15.4795 2.52051C16.1231 3.16407 16.4129 3.98333 16.5518 5.01562C16.6872 6.02317 16.6875 7.31404 16.6875 8.95703V9.04297C16.6875 10.686 16.6872 11.9768 16.5518 12.9844C16.4129 14.0167 16.1231 14.8359 15.4795 15.4795C14.8359 16.1231 14.0167 16.4129 12.9844 16.5518C11.9768 16.6872 10.686 16.6875 9.04297 16.6875H8.95703C7.31404 16.6875 6.02317 16.6872 5.01562 16.5518C3.98333 16.4129 3.16407 16.1231 2.52051 15.4795C1.87695 14.8359 1.58708 14.0167 1.44824 12.9844C1.31278 11.9768 1.31249 10.686 1.3125 9.04297V8.95703C1.31249 7.31404 1.31278 6.02317 1.44824 5.01562C1.58708 3.98333 1.87695 3.16407 2.52051 2.52051C3.16407 1.87695 3.98333 1.58708 5.01562 1.44824C6.02317 1.31278 7.31404 1.31249 8.95703 1.3125H9.04297ZM5.25 9.1875C4.93934 9.1875 4.6875 9.43934 4.6875 9.75V12.75C4.6875 13.0607 4.93934 13.3125 5.25 13.3125C5.56066 13.3125 5.8125 13.0607 5.8125 12.75V9.75C5.8125 9.43934 5.56066 9.1875 5.25 9.1875ZM9 4.6875C8.68934 4.6875 8.4375 4.93934 8.4375 5.25V12.75C8.4375 13.0607 8.68934 13.3125 9 13.3125C9.31066 13.3125 9.5625 13.0607 9.5625 12.75V5.25C9.5625 4.93934 9.31066 4.6875 9 4.6875ZM12.75 7.6875C12.4393 7.6875 12.1875 7.93934 12.1875 8.25V12.75C12.1875 13.0607 12.4393 13.3125 12.75 13.3125C13.0607 13.3125 13.3125 13.0607 13.3125 12.75V8.25C13.3125 7.93934 13.0607 7.6875 12.75 7.6875Z" fill="black"/>
+                  </svg>
+                  <span className="text-[14px] font-normal leading-[20px] tracking-[-0.02em] text-black text-left whitespace-nowrap">
+                    Статистика
+                  </span>
+                </DropdownMenu.Item>
+
+                {/* Пункт 3: Редактировать */}
+                <DropdownMenu.Item className="flex items-center w-full h-[40px] gap-[8px] px-[12px] py-[10px] border-b-[0.5px] border-[#E6E6E6] hover:bg-gray-50 transition-colors outline-none cursor-pointer">
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
+                    <g clipPath="url(#clip0_18080_2895)">
+                      <path d="M13.4849 1.00361C13.9787 0.790464 14.5385 0.790464 15.0322 1.00361C15.2307 1.08928 15.3975 1.21296 15.5588 1.35441C15.7134 1.48995 15.8896 1.66616 16.099 1.87555L16.1245 1.90104C16.3338 2.11042 16.5101 2.28662 16.6456 2.44122C16.787 2.60255 16.9107 2.7693 16.9964 2.96775C17.2095 3.46152 17.2095 4.02134 16.9964 4.5151C16.9107 4.71356 16.787 4.8803 16.6456 5.04164C16.5101 5.19622 16.3339 5.3724 16.1245 5.58175L16.1245 5.58183L12.2702 9.43613L12.2701 9.43615C11.4147 10.2919 10.8856 10.8212 10.2154 11.1382C9.54519 11.4553 8.69433 11.5391 7.49016 11.6577L6.89899 11.716C6.73135 11.7326 6.56512 11.6731 6.44601 11.554C6.32689 11.4349 6.26743 11.2687 6.28397 11.101L6.3423 10.5098C6.46091 9.30567 6.54473 8.45482 6.86179 7.7846C7.17885 7.11439 7.70813 6.58529 8.56388 5.72983L12.4182 1.87558L12.4182 1.87557C12.6276 1.66616 12.8038 1.48995 12.9584 1.35441C13.1197 1.21296 13.2864 1.08928 13.4849 1.00361Z" fill="black"/>
+                      <path fillRule="evenodd" clipRule="evenodd" d="M0.84375 12.4688C0.84375 11.3297 1.76716 10.4062 2.90625 10.4062H4.59375C5.00796 10.4062 5.34375 10.742 5.34375 11.1562C5.34375 11.5705 5.00796 11.9062 4.59375 11.9062H2.90625C2.59559 11.9062 2.34375 12.1581 2.34375 12.4688C2.34375 12.7794 2.59559 13.0312 2.90625 13.0312H10.0312C11.1703 13.0312 12.0938 13.9547 12.0938 15.0938C12.0938 16.2328 11.1703 17.1562 10.0312 17.1562H8.34375C7.92954 17.1562 7.59375 16.8205 7.59375 16.4062C7.59375 15.992 7.92954 15.6562 8.34375 15.6562H10.0312C10.3419 15.6562 10.5938 15.4044 10.5938 15.0938C10.5938 14.7831 10.3419 14.5312 10.0312 14.5312H2.90625C1.76716 14.5312 0.84375 13.6078 0.84375 12.4688Z" fill="black"/>
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_18080_2895">
+                        <rect width="18" height="18" fill="white"/>
+                      </clipPath>
+                    </defs>
+                  </svg>
+                  <span className="text-[14px] font-normal leading-[20px] tracking-[-0.02em] text-black text-left whitespace-nowrap">
+                    Редактировать
+                  </span>
+                </DropdownMenu.Item>
+
+                {/* Пункт 4: Удалить */}
+                <DropdownMenu.Item 
+                  onClick={() => removeInstrument(id)}
+                  className="flex items-center w-full h-[40px] gap-[8px] px-[12px] py-[10px] hover:bg-gray-50 transition-colors outline-none cursor-pointer"
+                >
+                  <svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg" className="shrink-0">
+                    <path fillRule="evenodd" clipRule="evenodd" d="M14.6865 11.7422C14.629 12.6819 14.5838 13.4277 14.4902 14.0234C14.3943 14.6344 14.2408 15.1438 13.9336 15.5889C13.6525 15.996 13.2898 16.3394 12.8701 16.5977C12.4115 16.8798 11.8995 17.0035 11.29 17.0625H6.69531C6.085 17.0033 5.5723 16.8794 5.11328 16.5967C4.6933 16.338 4.3308 15.9938 4.0498 15.5859C3.74275 15.1402 3.59034 14.6303 3.49512 14.0186C3.40227 13.422 3.35702 12.6754 3.30078 11.7344L2.8125 3.5625H15.1875L14.6865 11.7422ZM7.125 7.8457C6.81434 7.8457 6.5625 8.09754 6.5625 8.4082V12.9082C6.5625 13.2189 6.81434 13.4707 7.125 13.4707C7.43566 13.4707 7.6875 13.2189 7.6875 12.9082V8.4082C7.6875 8.09754 7.43566 7.8457 7.125 7.8457ZM10.875 7.8457C10.5643 7.8457 10.3125 8.09754 10.3125 8.4082V12.9082C10.3125 13.2189 10.5643 13.4707 10.875 13.4707C11.1857 13.4707 11.4375 13.2189 11.4375 12.9082V8.4082C11.4375 8.09754 11.1857 7.8457 10.875 7.8457Z" fill="black"/>
+                    <path fillRule="evenodd" clipRule="evenodd" d="M10.0105 0.962076C10.4343 0.999982 10.8326 1.12932 11.1747 1.38443C11.4276 1.57311 11.6034 1.80407 11.7536 2.05419C11.8927 2.28598 12.0328 2.57497 12.1917 2.9028L12.5117 3.56303H15.75C16.1642 3.56303 16.5 3.89881 16.5 4.31303C16.5 4.72724 16.1642 5.06303 15.75 5.06303C11.2498 5.06303 6.75014 5.06303 2.25 5.06303C1.83579 5.06303 1.5 4.72724 1.5 4.31303C1.5 3.89881 1.83579 3.56303 2.25 3.56303H5.55732L5.82417 2.97762C5.97909 2.63772 6.11552 2.33837 6.25257 2.09816C6.4004 1.83905 6.57541 1.59927 6.83146 1.40284C7.17774 1.13719 7.58411 1.00251 8.01744 0.963066C8.34369 0.933365 8.67258 0.937453 9 0.937979C9.3831 0.938595 9.72747 0.936765 10.0105 0.962076ZM7.20582 3.56303H10.8447C10.6748 3.21248 10.566 2.9903 10.4674 2.82615C10.3232 2.5859 10.1505 2.48058 9.87684 2.45611C9.68238 2.43872 9.42895 2.43803 9.0259 2.43803C8.61278 2.43803 8.35273 2.43874 8.15343 2.45689C7.87286 2.48243 7.69792 2.59176 7.55543 2.8415C7.46206 3.00515 7.3604 3.22423 7.20582 3.56303Z" fill="black"/>
+                  </svg>
+                  <span className="text-[14px] font-normal leading-[20px] tracking-[-0.02em] text-black text-left whitespace-nowrap">
+                    Удалить
+                  </span>
+                </DropdownMenu.Item>
+
+              </motion.div>
+            </DropdownMenu.Content>
+          </DropdownMenu.Portal>
+        )}
+      </AnimatePresence>
     </DropdownMenu.Root>
   );
 };

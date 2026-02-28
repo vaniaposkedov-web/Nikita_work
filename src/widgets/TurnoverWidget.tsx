@@ -60,15 +60,37 @@ export const TurnoverWidget = () => {
         </h2>
           
         {/* Процент: top 92, left 20 */}
-        <div className="absolute top-[92px] left-[20px] flex items-center gap-1.5 w-fit h-[28px] px-2 pl-0.5 bg-white/10 rounded-full backdrop-blur-md border border-white/5">
-          <div className="w-[24px] h-[24px] bg-white rounded-full flex items-center justify-center shadow-sm">
-             <TrendingUp size={14} strokeWidth={3} className="text-[#573DEB]" />
+        <div className="absolute top-[92px] left-[20px] flex items-center w-[142px] h-[28px] gap-[4px] pt-[2px] pr-[8px] pb-[2px] pl-[2px] bg-white/10 rounded-[10000px]">
+          
+          {/* Блок с кругом */}
+          <div className="relative w-[24px] h-[24px] shrink-0">
+            {/* Сам белый круг */}
+            <div className="absolute top-[1.25px] left-[1.25px] w-[21.5px] h-[21.5px] bg-white rounded-full shadow-sm"></div>
+            
+            {/* Иконка (увеличен размер до 8x8 для удлинения палочки, цвет #573DEB) */}
+            <svg 
+              className="absolute top-[8px] left-[8px]"
+              width="8" 
+              height="8" 
+              viewBox="0 0 8 8" 
+              fill="none" 
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path 
+                d="M1 7L7 1M7 1H2.5M7 1V5.5" 
+                stroke="#573DEB" 
+                strokeWidth="1.5" 
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              />
+            </svg>
           </div>
-          <span className="w-[104px] h-[20px] text-[14px] font-normal leading-[20px] tracking-[-0.02em] text-white">
-  +8,3% за месяц
-</span>
-        </div>
 
+          {/* Текст */}
+          <span className="text-[14px] font-normal leading-[20px] tracking-[-0.02em] text-white whitespace-nowrap">
+            +8,3% за месяц
+          </span>
+        </div>
       </div>
     </motion.div>
   );
